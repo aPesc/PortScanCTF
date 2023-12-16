@@ -66,7 +66,7 @@ def escaneodehostsup(scan_network):
     try:
         nm = nmap.PortScanner()
         print(f"Iniciando escaneo de ping para {scan_network}...")
-        nm.scan(scan_network, arguments="-Pn")
+        nm.scan(scan_network, arguments="-sn")
 
         output_data = []
         for host in nm.all_hosts():
