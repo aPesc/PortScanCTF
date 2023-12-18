@@ -35,7 +35,7 @@ def escaneodepuertos(scan_ip, scan_arguments):
                 if proto in scan_result:
                     ports = scan_result[proto]
                     for port, estado in ports.items():
-                        # Utilizar directamente nm[host][proto][port] para acceder a la información específica del puerto
+                        # UDILIZAMOS DIRECTAMENTE nm[host][proto][port] PARA ACCEDER A LA INFORMACIÓN ESPECÍFICA DEL PUERTP
                         port_info = nm[host][proto][port]
 
                         row_data = {
@@ -52,7 +52,7 @@ def escaneodepuertos(scan_ip, scan_arguments):
                             'version': port_info.get('version', ''),
                         }
 
-                        # Verificar si la combinación de host y puerto ya existe en la lista
+                        # VERIFICAMOS SI LA CONVINACIÓN DE HOSTS Y PUERTO YA EXISTE EN LA LISTA
                         if row_data not in output_data:
                             output_data.append(row_data)
 
@@ -90,7 +90,7 @@ def escaneodehostsup(scan_network):
 
 
 ### PP ###
-option = input("0.-Salir.\n1.-Escanear todos los hosts de la red para ver los que esten en estado 'up' (Las maquinas windows y algun otro puntual puede que no aparezcan).\n2.-Escanear todos los puertos abiertos de un host en concreto.\n¿Que es lo que quieres hacer? ")
+option = input("0.-Salir.\n1.-Escanear todos los hosts de la red para ver los que esten en estado 'up' (Las maquinas windows y algun otro puede que no aparezcan).\n2.-Escanear todos los puertos abiertos de un host en concreto.\n3. Realizar un escaneo de detección de servicios.¿Que es lo que quieres hacer? ")
 
 while True:
     match option:
@@ -117,7 +117,7 @@ while True:
                     selected_ip = hosts_data[choice - 1]['host']
                     scan_arguments = '-Pn'
                     escaneodepuertos(selected_ip, scan_arguments)
-                except (json.JSONDecodeError, IndexError, ValueError) as e:
+                except (FileNotFoundError, json.JSONDecodeError, IndexError, ValueError) as e:
                     print(f"Error al leer el archivo de hosts: {e}")
             else:
                 print("Opción no válida.")
