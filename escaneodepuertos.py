@@ -35,7 +35,7 @@ def escaneodepuertos(scan_ip, scan_arguments):
                 if proto in scan_result:
                     ports = scan_result[proto]
                     for port, estado in ports.items():
-                        # UDILIZAMOS DIRECTAMENTE nm[host][proto][port] PARA ACCEDER A LA INFORMACIÓN ESPECÍFICA DEL PUERTP
+                        # UTILIZAMOS DIRECTAMENTE nm[host][proto][port] PARA ACCEDER A LA INFORMACIÓN ESPECÍFICA DEL PUERTP
                         port_info = nm[host][proto][port]
 
                         row_data = {
@@ -97,10 +97,12 @@ while True:
         case "0":
             break
         case "1":
+            # SOLICITAMOS LA RED A ESCANEAR Y LLAMAMOS A LA FUNCION 
             scan_network = input("Cual es la red a escanear(e.g.: 192.168.1.0/24)? ")
             escaneodehostsup(scan_network)
             break
         case "2":
+            # SUBMENU PARA LA OPCION 2: ESCANEAR PUERTOS DE UN HOST
             sub_option = input("Como quieres ingresar la dirección IP?\n1. Manualmente\n2. Desde el archivo de 'output_hosts_up.json'\nSelecciona la opción: ")
             if sub_option == "1":
                 scan_ip = input("Ingrese la dirección IP manualmente: ")
@@ -108,11 +110,13 @@ while True:
                 escaneodepuertos(scan_ip, scan_arguments)
             elif sub_option == "2":
                 try:
+                    # LEEMOS EL ARCHIVO DE HOSTS Y MOSTRAMOS LAS IPS DISPONIBLES
                     with open('output_hosts_up.json', 'r') as hosts_file:
                         hosts_data = json.load(hosts_file)
                     print("IPs disponibles:")
                     for index, host_data in enumerate(hosts_data, 1):
                         print(f"{index}. {host_data['host']}")
+                    # EL USUARIO SELECCIONA UNA IP Y REALIZAMOS EL ESCANEO DE PUERTOS
                     choice = int(input("Seleccione el número correspondiente a la IP que desea escanear: "))
                     selected_ip = hosts_data[choice - 1]['host']
                     scan_arguments = '-Pn'
